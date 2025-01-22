@@ -1,6 +1,7 @@
 import express from 'express';
 import {body} from 'express-validator';
-import { loginUser, registerUser } from '../controller/user.controller.js';
+import { getUserProfile, loginUser, logoutUser, registerUser } from '../controller/user.controller.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
@@ -11,6 +12,10 @@ router.post("/register",[
 ],registerUser)
 
 router.post("/login",[body('email').isEmail().withMessage("Invalid Email")],loginUser)
+
+router.get("/profile",authMiddleware,getUserProfile)
+
+router.get("/logout",authMiddleware,logoutUser);
 
 
 export default router;

@@ -1,6 +1,7 @@
 import userModel from "../models/user.model.js";
 import { validationResult } from "express-validator";
 import { createUser } from "../services/user.services.js";
+import BlackListToken from "../models/blackListToken.model.js";
 
 export const registerUser = async (req, res, next) => {
   const errors = validationResult(req);
@@ -45,6 +46,29 @@ export const loginUser = async (req, res, next) => {
   }
 
   const token = await user.generateAuthToken();
+  res.cookie("token",token,{expiresIn : "24h"});
   user.password = "";
   res.status(201).json({token,user});
 };
+
+export const getUserProfile = async(req,res,next)=>{
+  res.status(200).json(req.user);
+}
+
+export const logoutUser = async(req,res,next)=>{
+  try{
+   const token = req.cookies.token || req.headers.authorization.split(" ")[1];
+   const blakcListToken = await BlackListToken.create({token});
+   res.clearCookie("tokne");
+   res.status(200).json({
+    success : true,
+    message : "User Logged Out"
+   })
+  }
+  catch(err){
+    res.status(500).json({
+      success : false,
+      message : "Internal Server Error"
+  })
+}
+}
