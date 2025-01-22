@@ -14,7 +14,7 @@ Registers a new user.
 
 - **URL**: `/users/register`
 - **Method**: `POST`
-- **Headers**: 
+- **Headers**:
   - `Content-Type: application/json`
 - **Body**:
   ```json
@@ -25,4 +25,56 @@ Registers a new user.
     },
     "email": "john.doe@example.com",
     "password": "password123"
+  }
+  ```
+
+#### Response
+
+{ "token":
+"your_jwt_token",
+"user":
+{ "_id": "user_id",
+"fullname": { "firstname": "John", "lastname": "Doe" },
+"email": "john.doe@example.com",
+"socketId": null
+}
+}
+
+
+# User Login API
+
+## Overview
+
+This API allows users to log in by providing their email and password. Upon successful login, a JSON Web Token (JWT) is returned along with the user details.
+
+## Endpoint
+
+### POST /users/login
+
+Logs in an existing user.
+
+#### Request
+
+- **URL**: `/users/login`
+- **Method**: `POST`
+- **Headers**: 
+  - `Content-Type: application/json`
+- **Body**:
+  ```json
+  {
+    "email": "john.doe@example.com",
+    "password": "password123"
+  } 
+#### Response
+   {
+    "token": "your_jwt_token",
+    "user": {
+      "_id": "user_id",
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "john.doe@example.com",
+      "socketId": null
+    }
   }
