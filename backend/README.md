@@ -132,3 +132,62 @@ Logs out the logged-in user.
   "message": "User Logged Out"
 }
 ```
+# Captain Registration API
+
+## Overview
+
+This API allows captains to register by providing their first name, last name, email, password, and vehicle details. Upon successful registration, a JSON Web Token (JWT) is returned along with the captain details.
+
+## Endpoint
+
+### POST /captian/register
+
+Registers a new captain.
+
+#### Request
+
+- **URL**: `/captian/register`
+- **Method**: `POST`
+- **Headers**: 
+  - `Content-Type: application/json`
+- **Body**:
+  ```json
+  {
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "password": "password123",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+
+#### Response
+    {
+    "captian": {
+      "_id": "captian_id",
+      "fullname": {
+        "firstname": "John",
+        "lastname": "Doe"
+      },
+      "email": "john.doe@example.com",
+      "socketId": null,
+      "status": "inactive",
+      "vehicle": {
+        "color": "red",
+        "plate": "ABC123",
+        "capacity": 4,
+        "vehicleType": "car"
+      },
+      "location": {
+        "lat": null,
+        "lng": null
+      }
+    },
+    "token": "your_jwt_token"
+  }
