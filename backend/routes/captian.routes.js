@@ -1,6 +1,7 @@
 import epxress from "express";
 import { body } from "express-validator";
-import { registerCaptian } from "../controller/captian.controller.js";
+import { captianProfile, loginCaptian, logoutCaptian, registerCaptian } from "../controller/captian.controller.js";
+import { authCaptian } from "../middlewares/auth.middleware.js";
 const router = epxress.Router();
 
 router.post(
@@ -23,5 +24,11 @@ router.post(
   ],
   registerCaptian
 );
+
+router.get("/login",[body("email").isEmail().withMessage("Invalid Email"),body("password").isLength({min :5 }).withMessage("Password must be atleast of 5 characters long")],loginCaptian);
+
+router.get("/profile",authCaptian,captianProfile);
+
+router.get("/logout",authCaptian,logoutCaptian);
 
 export default router;

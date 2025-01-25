@@ -6,7 +6,7 @@ import BlackListToken from "../models/blackListToken.model.js";
 export const registerUser = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ error: errors.array() });
+    return res.status(400).json({success : false , error: errors.array() });
   }
 
   const { fullname, email, password } = req.body;
@@ -24,7 +24,7 @@ export const registerUser = async (req, res, next) => {
 export const loginUser = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ error: errors.array() });
+    return res.status(400).json({success : false, error: errors.array() });
   }
   const {email,password} = req.body;
   const user = await userModel.findOne({email}).select("+password");
@@ -52,7 +52,15 @@ export const loginUser = async (req, res, next) => {
 };
 
 export const getUserProfile = async(req,res,next)=>{
-  res.status(200).json(req.user);
+try{
+  res.status(200).json(req.user || {});
+}
+catch(error){
+  res.status(500).json({
+    success : false,
+    message : "Internal Server Error"
+  })
+}
 }
 
 export const logoutUser = async(req,res,next)=>{

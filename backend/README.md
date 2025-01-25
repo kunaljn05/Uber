@@ -132,6 +132,7 @@ Logs out the logged-in user.
   "message": "User Logged Out"
 }
 ```
+
 # Captain Registration API
 
 ## Overview
@@ -148,7 +149,7 @@ Registers a new captain.
 
 - **URL**: `/captian/register`
 - **Method**: `POST`
-- **Headers**: 
+- **Headers**:
   - `Content-Type: application/json`
 - **Body**:
   ```json
@@ -166,8 +167,10 @@ Registers a new captain.
       "vehicleType": "car"
     }
   }
+  ```
 
 #### Response
+
     {
     "captian": {
       "_id": "captian_id",
@@ -190,4 +193,112 @@ Registers a new captain.
       }
     },
     "token": "your_jwt_token"
+
+}
+
+    # Captain Login API
+
+## Overview
+
+This API allows captains to log in by providing their email and password. Upon successful login, a JSON Web Token (JWT) is returned along with the captain details.
+
+## Endpoint
+
+### POST /captian/login
+
+Logs in an existing captain.
+
+#### Request
+
+- **URL**: `/captian/login`
+- **Method**: `POST`
+- **Headers**:
+  - `Content-Type: application/json`
+- **Body**:
+  ```json
+  {
+    "email": "john.doe@example.com",
+    "password": "password123"
   }
+  ```
+
+#### Response
+
+{
+"captian": {
+"\_id": "captian_id",
+"fullname": {
+"firstname": "John",
+"lastname": "Doe"
+},
+"email": "john.doe@example.com",
+"socketId": null,
+"status": "inactive",
+"vehicle": {
+"color": "red",
+"plate": "ABC123",
+"capacity": 4,
+"vehicleType": "car"
+},
+"location": {
+"lat": null,
+"lng": null
+}
+},
+"token": "your_jwt_token"
+}
+
+### GET /captian/profile
+
+Fetches the profile of the logged-in captain.
+
+#### Request
+
+- **URL**: `/captian/profile`
+- **Method**: `GET`
+- **Headers**:
+  - `Authorization: Bearer <token>`
+
+#### Response
+
+````json
+{
+  "_id": "captian_id",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "socketId": null,
+  "status": "inactive",
+  "vehicle": {
+    "color": "red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  },
+  "location": {
+    "lat": null,
+    "lng": null
+  }
+}
+
+ ### GET /captian/logout
+
+Logs out the logged-in captain.
+
+#### Request
+
+- **URL**: `/captian/logout`
+- **Method**: `GET`
+- **Headers**:
+  - `Authorization: Bearer <token>`
+
+#### Response
+
+  ```json
+  {
+    "success": true,
+    "message": "Captain Logged Out"
+  }
+````
